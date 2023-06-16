@@ -25,6 +25,19 @@ def main(argv=None):
         new_version = '{}.{}.{}'.format(parts[0], parts[1], new_patch)
         return new_version
 
+    # Run git command to retrieve main branch name
+    git_show_remote_command = ['git', 'remote', 'show', 'origin']
+    git_show_remote_command_output = subprocess.check_output(git_show_remote_command, text=True)
+
+    # Parse output to extract main branch name
+    lines = git_show_remote_command_output.split('\n')
+    for line in lines:
+        if line.startswith('  HEAD branch:'):
+            main_branch_name = line.split(':')[1].strip()
+        break
+
+    print(main_branch_name)  # Output the main branch name
+
     # Get list of chart directories that have changed
     git_diff_output = subprocess.run(['git', 'diff', '--name-only', 'HEAD'], check=True, capture_output=True, text=True)
     changed_files = [filename for filename in git_diff_output.stdout.splitlines()]
@@ -36,7 +49,7 @@ def main(argv=None):
 
     for chart_dir in chart_dirs:
         # Get versions
-        prev_version_chart_file = subprocess.run(['git', 'show', f'main:{chart_dir}/Chart.yaml'], check=True, capture_output=True, text=True).stdout
+        prev_version_chart_file = subprocess.run(['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'], check=True, capture_output=True, text=True).stdout
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
         with open(f'{chart_dir}/Chart.yaml', 'r') as f:
@@ -66,3 +79,4 @@ def main(argv=None):
 
 if __name__ == '__main__':
     sys.exit(main())
+
