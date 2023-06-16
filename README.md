@@ -14,12 +14,12 @@ Once pre-commit is installed, add the following to your .pre-commit-config.yaml 
 ``` yaml
 repos:
   - repo: https://github.com/devqik/bump-helm-chart-version
-  rev: v1.0.6
-  hooks:
-    - id: bump-chart-version
-      entry: bump-chart-version
-      language: python
-      name: Bump chart version
+    rev: v1.0.6
+    hooks:
+      - id: bump-chart-version
+        entry: bump-chart-version
+        language: python
+        name: Bump chart version
 ```
 
 ## Configuration
