@@ -1,0 +1,12 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit
+  rev: v3.3.1
+  hooks:
+    - id: validate_manifest
+- repo: https://github.com/devqik/bump-helm-chart-version
+  rev: v1.3.17
+  hooks:
+    - id: bump-chart-version
+      entry: bump_helm_chart_version/bump_chart_version.py
+      language: python
+      name: Bump chart version

@@ -1,0 +1,5 @@
+- id: bump-chart-version
+  name: Bump chart version
+  entry: bump_helm_chart_version/bump_chart_version.py
+  language: python
+  types: [yaml]
