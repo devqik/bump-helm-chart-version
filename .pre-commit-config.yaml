@@ -7,6 +7,5 @@ repos:
   rev: v1.0.0
   hooks:
     - id: bump-chart-version
-      entry: bump_helm_chart_version/bump_chart_version.py
       language: python
       name: Bump chart version
