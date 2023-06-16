@@ -10,6 +10,6 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: http
       protocol: TCP
-      name: httppp
+      name: http
   selector:
     {{- include "test-chart.selectorLabels" . | nindent 4 }}
