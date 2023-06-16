@@ -34,7 +34,7 @@ def main(argv=None):
     for line in lines:
         if line.startswith('  HEAD branch:'):
             main_branch_name = line.split(':')[1].strip()
-        break
+            break  # Corrected indentation
 
     print(main_branch_name)  # Output the main branch name
 
