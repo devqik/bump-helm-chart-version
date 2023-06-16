@@ -15,14 +15,17 @@ Once pre-commit is installed, add the following to your .pre-commit-config.yaml 
 yaml
 Copy code
 repos:
-  - repo: https://github.com/yorki404/bump-helm-chart-version
-    rev: v1.1.2
+  - repo: https://github.com/devqik/bump-helm-chart-version
+    rev: v1.0.0
     hooks:
-      - id: bump-helm-chart-version
+      - id: bump-chart-version
+        entry: bump_helm_chart_version/bump_chart_version.py
+        language: python
+        name: Bump chart version
 ```
 ## Configuration
 
-This pre-commit hook looks for changes in the /templates folder and helper function files to determine if the Helm chart patch version should be bumped. If you need to change the directory or file pattern, you can modify the bump_helm_chart_version.py script.
+This pre-commit hook looks for changes in the /templates folder and helper function files to determine if the Helm chart patch version should be bumped. If you need to change the directory, main branch name or file pattern, you can modify the bump_chart_version.py script.
 
 ## Execution
 
