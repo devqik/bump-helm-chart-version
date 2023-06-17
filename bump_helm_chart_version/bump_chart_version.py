@@ -53,9 +53,10 @@ def main(argv=None):
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
         with open(f'{chart_dir}/Chart.yaml', 'r') as f:
-            current_version = [line.split()[1] for line in f.readlines() if line.startswith('version:')][0]
+            current_version = [line.split()[1] for line in f.readlines() if line.startswith('version:')][0].strip()
+
         new_version = increment_patch_version(prev_version)
-        # Echo previous an current versions
+        # Echo previous and current versions
         print(f"The previous version is {prev_version}")
         print(f"The current version is {current_version}")
 
@@ -79,4 +80,3 @@ def main(argv=None):
 
 if __name__ == '__main__':
     sys.exit(main())
-
