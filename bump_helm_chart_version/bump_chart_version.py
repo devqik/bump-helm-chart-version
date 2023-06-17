@@ -37,7 +37,7 @@ def main(argv=None):
 
     for chart_dir in chart_dirs:
         # Get versions
-        prev_version_chart_file = subprocess.run(['git', 'show', f'master:{chart_dir}/Chart.yaml'], check=True, capture_output=True, text=True).stdout
+        prev_version_chart_file = subprocess.run(['git', 'show', f'main:{chart_dir}/Chart.yaml'], check=True, capture_output=True, text=True).stdout
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
         with open(f'{chart_dir}/Chart.yaml', 'r') as f:
