@@ -61,9 +61,7 @@ def main(argv=None):
         print(f"The current version is {current_version}")
 
         # Check if Chart version was changed manually
-        if prev_version != current_version:
-            print(f"Chart was updated")
-        else:
+        if prev_version == current_version:
             print(f"Checking chart version in {chart_dir}")
             if new_version != current_version:
                 print(f"Updating chart version from {current_version} to {new_version}")
@@ -77,6 +75,8 @@ def main(argv=None):
                         else:
                             f.write(line)
                 subprocess.run(['git', 'add', f'{chart_dir}/Chart.yaml'], check=True)
+        else:
+            print("Chart was updated")
 
 if __name__ == '__main__':
     sys.exit(main())
