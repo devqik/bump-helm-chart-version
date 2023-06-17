@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: bump-helm-chart-version
+Version: 1.0.0
+Summary: Bump helm chart version if the /templates folder has changes
+Home-page: https://youssefhussein.com
+Author: Youssef Hussein
+Author-email: youssef@doubl.tech
+License: MIT
+License-File: LICENSE

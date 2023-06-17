@@ -1,0 +1,2 @@
+[console_scripts]
+bump-chart-version = bump_helm_chart_version.bump_chart_version:main
