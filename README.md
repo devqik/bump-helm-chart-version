@@ -36,4 +36,4 @@ Contributions are welcome! Please follow the contributing guidelines when making
 
 ## License
 
-This pre-commit hook is licensed under the MIT License.
+This pre-commit hook is licensed under the BSD 3-Clause License.
