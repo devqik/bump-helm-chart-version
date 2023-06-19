@@ -5,9 +5,9 @@ This script performs version-related tasks for chart directories based on Git ch
 """
 
 import subprocess
+import yaml
 import sys
 import os
-import yaml
 
 # Check if required packages are installed and install them if necessary
 try:
