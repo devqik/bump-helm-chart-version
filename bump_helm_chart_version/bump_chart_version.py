@@ -50,7 +50,7 @@ def main():
 
     # Get list of chart directories that have changed
     git_diff_output = subprocess.run(
-        ['git', 'diff', '--name-only', 'HEAD'], 
+        ['git', 'diff', '--name-only', 'HEAD'],
         check=True, capture_output=True, text=True
     )
     changed_files = list(git_diff_output.stdout.splitlines())
