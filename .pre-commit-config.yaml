@@ -3,7 +3,8 @@ repos:
   rev: v3.3.1
   hooks:
     - id: validate_manifest
-- repo: local
+- repo: https://github.com/devqik/bump-helm-chart-version
+  rev: v1.0.10
   hooks:
     - id: bump-chart-version
       entry: bump-chart-version
