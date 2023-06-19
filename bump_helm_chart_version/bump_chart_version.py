@@ -15,7 +15,7 @@ except ImportError:
     subprocess.run(['pip', 'install', 'pyyaml'], check=True)
     import yaml
 
-def main(argv=None):
+def main():
     """
     Main function for performing version-related tasks on chart directories.
     """
