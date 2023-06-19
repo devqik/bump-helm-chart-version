@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
+import sys
 import os
 import subprocess
 import yaml
-import sys
 
 # Check if required packages are installed and install them if necessary
 try:
@@ -13,7 +13,6 @@ except ImportError:
     import yaml
 
 def main(argv=None):
-
     def increment_patch_version(version):
         parts = version.split('.')
         if len(parts) != 3:
@@ -25,7 +24,7 @@ def main(argv=None):
         new_patch = patch + 1
         new_version = '{}.{}.{}'.format(parts[0], parts[1], new_patch)
         return new_version
-    
+
     # Run git command to retrieve main branch name
     git_show_remote_command = ['git', 'remote', 'show', 'origin']
     git_show_remote_command_output = subprocess.check_output(git_show_remote_command, text=True)
@@ -38,7 +37,7 @@ def main(argv=None):
             break
 
     print(main_branch_name)  # Output the main branch name
-    
+
     # Get list of chart directories that have changed
     git_diff_output = subprocess.run(['git', 'diff', '--name-only', 'HEAD'], check=True, capture_output=True, text=True)
     changed_files = [filename for filename in git_diff_output.stdout.splitlines()]
