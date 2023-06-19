@@ -95,7 +95,11 @@ def main():
             print(f"Checking chart version in {chart_dir}")
             if new_version != current_version:
                 print(f"Updating chart version from {current_version} to {new_version}")
-                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as chart_yaml_file_content:
+                with open(
+                    f'{chart_dir}/Chart.yaml',
+                    'r+',
+                    encoding='utf-8'
+                ) as chart_yaml_file_content:
                     lines = chart_yaml_file_content.readlines()
                     chart_yaml_file_content.seek(0)
                     chart_yaml_file_content.truncate()
@@ -104,7 +108,10 @@ def main():
                             chart_yaml_file_content.write(f'version: {new_version}\n')
                         else:
                             chart_yaml_file_content.write(line)
-                subprocess.run(['git', 'add', f'{chart_dir}/Chart.yaml'], check=True)
+                subprocess.run(
+                    ['git', 'add', f'{chart_dir}/Chart.yaml'],
+                    check=True
+                )
 
 if __name__ == '__main__':
     sys.exit(main())
