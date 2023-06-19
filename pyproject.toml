@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools", "wheel", "poetry", "pyyaml"]
 build-backend = "setuptools.build_meta"
 
 [tool.poetry]
@@ -11,9 +11,6 @@ license = "BSD 3-Clause License"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-
-[build-system]
-requires = ["poetry", "pyyaml"]
 
 [tool.poetry.scripts]
 bump-chart-version = "bump_helm_chart_version.bump_chart_version:main"
