@@ -35,16 +35,14 @@ def main():
         new_version = f'{parts[0]}.{parts[1]}.{new_patch}'
         return new_version
 
-    # Run git command to retrieve main branch name
+    # Retrieve main branch name
     git_show_remote_command = ['git', 'remote', 'show', 'origin']
     git_show_remote_command_output = subprocess.check_output(git_show_remote_command, text=True)
-
-    # Parse output to extract main branch name
-    lines = git_show_remote_command_output.split('\n')
-    for line in lines:
-        if line.startswith('  HEAD branch:'):
-            main_branch_name = line.split(':')[1].strip()
-            break
+    main_branch_name = next(
+        line.split(':')[1].strip()
+        for line in git_show_remote_command_output.split('\n')
+        if line.startswith('  HEAD branch:')
+    )
 
     print(main_branch_name)  # Output the main branch name
 
@@ -53,36 +51,31 @@ def main():
         ['git', 'diff', '--name-only', 'HEAD'],
         check=True, capture_output=True, text=True
     )
-    changed_files = list(git_diff_output.stdout.splitlines())
+    changed_files = git_diff_output.stdout.splitlines()
 
-    chart_dirs = [
-        os.path.dirname(file)
-        for file in changed_files
-        if file.endswith('/Chart.yaml') or '/templates' in file
-    ]
-    chart_dirs = [os.path.split(dir_path) for dir_path in chart_dirs]
-    chart_dirs = [
+    chart_dirs = list(dict.fromkeys(
         os.path.join(*parts[:-1]) if parts[-1] == 'templates' else os.path.join(*parts)
-        for parts in chart_dirs
-    ]
-    chart_dirs = list(dict.fromkeys(chart_dirs))
+        for file in changed_files
+        for parts in [os.path.split(os.path.dirname(file))]
+        if file.endswith('/Chart.yaml') or '/templates' in file
+    ))
 
     for chart_dir in chart_dirs:
         # Get versions
         prev_version_chart_file = subprocess.run(
             ['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'],
-            check=True,
-            capture_output=True,
-            text=True
+            check=True, capture_output=True, text=True
         ).stdout
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
-        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as chart_yaml_file_content:
-            current_version = [
-                line.split()[1]
-                for line in chart_yaml_file_content.readlines()
+
+        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as chart_yaml_file:
+            current_version = next(
+                line.split()[1].strip()
+                for line in chart_yaml_file
                 if line.startswith('version:')
-            ][0].strip()
+            )
+
         new_version = increment_patch_version(prev_version)
         # Echo previous and current versions
         print(f"The previous version is {prev_version}")
@@ -95,23 +88,16 @@ def main():
             print(f"Checking chart version in {chart_dir}")
             if new_version != current_version:
                 print(f"Updating chart version from {current_version} to {new_version}")
-                with open(
-                    f'{chart_dir}/Chart.yaml',
-                    'r+',
-                    encoding='utf-8'
-                ) as chart_yaml_file_content:
-                    lines = chart_yaml_file_content.readlines()
-                    chart_yaml_file_content.seek(0)
-                    chart_yaml_file_content.truncate()
+                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as chart_yaml_file:
+                    lines = chart_yaml_file.readlines()
+                    chart_yaml_file.seek(0)
+                    chart_yaml_file.truncate()
                     for line in lines:
                         if line.startswith('version:'):
-                            chart_yaml_file_content.write(f'version: {new_version}\n')
+                            chart_yaml_file.write(f'version: {new_version}\n')
                         else:
-                            chart_yaml_file_content.write(line)
-                subprocess.run(
-                    ['git', 'add', f'{chart_dir}/Chart.yaml'],
-                    check=True
-                )
+                            chart_yaml_file.write(line)
+                subprocess.run(['git', 'add', f'{chart_dir}/Chart.yaml'], check=True)
 
 if __name__ == '__main__':
     sys.exit(main())
