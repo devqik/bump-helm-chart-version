@@ -5,7 +5,6 @@ This script performs version-related tasks for chart directories based on Git ch
 """
 
 import subprocess
-import yaml
 import sys
 import os
 
@@ -75,10 +74,10 @@ def main(argv=None):
         ).stdout
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
-        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as f:
+        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as chart_yaml_file_content:
             current_version = [
                 line.split()[1]
-                for line in f.readlines()
+                for line in chart_yaml_file_content.readlines()
                 if line.startswith('version:')
             ][0].strip()
         new_version = increment_patch_version(prev_version)
@@ -93,15 +92,15 @@ def main(argv=None):
             print(f"Checking chart version in {chart_dir}")
             if new_version != current_version:
                 print(f"Updating chart version from {current_version} to {new_version}")
-                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as f:
-                    lines = f.readlines()
-                    f.seek(0)
-                    f.truncate()
+                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as chart_yaml_file_content:
+                    lines = chart_yaml_file_content.readlines()
+                    chart_yaml_file_content.seek(0)
+                    chart_yaml_file_content.truncate()
                     for line in lines:
                         if line.startswith('version:'):
-                            f.write(f'version: {new_version}\n')
+                            chart_yaml_file_content.write(f'version: {new_version}\n')
                         else:
-                            f.write(line)
+                            chart_yaml_file_content.write(line)
                 subprocess.run(['git', 'add', f'{chart_dir}/Chart.yaml'], check=True)
 
 if __name__ == '__main__':
