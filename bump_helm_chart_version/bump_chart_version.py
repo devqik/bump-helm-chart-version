@@ -36,13 +36,13 @@ def main():
         return new_version
 
     # Retrieve main branch name
-    git_show_remote_command = ['git', 'remote', 'show', 'origin']
-    git_show_remote_command_output = subprocess.check_output(git_show_remote_command, text=True)
     main_branch_name = next(
         line.split(':')[1].strip()
-        for line in git_show_remote_command_output.split('\n')
+        for line in subprocess.check_output(['git', 'remote', 'show', 'origin'],
+            text=True).split('\n')
         if line.startswith('  HEAD branch:')
     )
+
 
     print(main_branch_name)  # Output the main branch name
 
@@ -62,12 +62,11 @@ def main():
 
     for chart_dir in chart_dirs:
         # Get versions
-        prev_version_chart_file = subprocess.run(
-            ['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'],
-            check=True, capture_output=True, text=True
-        ).stdout
-        prev_version_dict = yaml.safe_load(prev_version_chart_file)
-        prev_version = prev_version_dict['version']
+        prev_version = yaml.safe_load(
+            subprocess.run(['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'],
+                        check=True, capture_output=True, text=True).stdout
+        )['version']
+
 
         with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as chart_yaml_file:
             current_version = next(
