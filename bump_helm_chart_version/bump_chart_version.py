@@ -5,10 +5,9 @@ This script performs version-related tasks for chart directories based on Git ch
 """
 
 import subprocess
-import yaml
 import sys
-
-import os  # Reordered import
+import os
+import yaml
 
 # Check if required packages are installed and install them if necessary
 try:
@@ -52,7 +51,7 @@ def main(argv=None):
 
     # Get list of chart directories that have changed
     git_diff_output = subprocess.run(['git', 'diff', '--name-only', 'HEAD'], check=True, capture_output=True, text=True)
-    changed_files = list(git_diff_output.stdout.splitlines())  # Replaced comprehension with list()
+    changed_files = list(git_diff_output.stdout.splitlines())
 
     chart_dirs = [
         os.path.dirname(file)
@@ -76,7 +75,7 @@ def main(argv=None):
         ).stdout
         prev_version_dict = yaml.safe_load(prev_version_chart_file)
         prev_version = prev_version_dict['version']
-        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as f:  # Added encoding parameter
+        with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as f:
             current_version = [
                 line.split()[1]
                 for line in f.readlines()
@@ -94,7 +93,7 @@ def main(argv=None):
             print(f"Checking chart version in {chart_dir}")
             if new_version != current_version:
                 print(f"Updating chart version from {current_version} to {new_version}")
-                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as f:  # Added encoding parameter
+                with open(f'{chart_dir}/Chart.yaml', 'r+', encoding='utf-8') as f:
                     lines = f.readlines()
                     f.seek(0)
                     f.truncate()
