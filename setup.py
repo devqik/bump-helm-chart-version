@@ -1,3 +1,7 @@
+"""
+This script performs version-related tasks for chart directories based on Git changes.
+"""
+
 from setuptools import setup
 
 setup(
