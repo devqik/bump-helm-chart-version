@@ -1,5 +1,9 @@
 # bump-helm-chart-version Pre-commit Hook
 
+[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
 ## Overview
 
 bump-helm-chart-version is a pre-commit hook written in Python 3. It requires pyyaml to be installed and is used to automatically bump the Helm chart patch version if the chart has changes in the `/templates` folder or changes in helper functions files.
