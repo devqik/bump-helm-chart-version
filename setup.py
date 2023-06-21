@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='bump-helm-chart-version',
-    version='1.1.0',
+    version='1.1.1',
     description='Bump helm chart version if the /templates folder has changes',
     author='Youssef Hussein',
     author_email='youssef@doubl.tech',

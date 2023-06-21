@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.poetry]
 name = "bump_helm_chart_version"
-version = "1.1.0"
+version = "1.1.1"
 description = "Bump helm chart version if the /templates folder has changes'"
 authors = ["Youssef Hussein <youssef@doubl.tech>"]
 license = "BSD 3-Clause License"
