@@ -7,13 +7,7 @@ This script performs version-related tasks for chart directories based on Git ch
 import subprocess
 import sys
 import os
-
-# Check if required packages are installed and install them if necessary
-try:
-    import yaml
-except ImportError:
-    subprocess.run(['pip', 'install', 'pyyaml'], check=True)
-    import yaml
+import yaml
 
 def main():
     """
