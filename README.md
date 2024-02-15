@@ -24,7 +24,7 @@ To use bump-helm-chart-version, follow these steps:
 ```yaml
 repos:
   - repo: https://github.com/devqik/bump-helm-chart-version
-    rev: v1.1.1
+    rev: v1.1.2
     hooks:
       - id: bump-chart-version
         entry: bump-chart-version
