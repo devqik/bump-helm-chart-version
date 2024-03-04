@@ -57,6 +57,10 @@ def main():
     print("Changed chart directories: ", chart_dirs)
 
     for chart_dir in chart_dirs:
+        if not os.path.exists(f'{chart_dir}/Chart.yaml'):
+            print(f"Skipping {chart_dir} because it does not contain a Chart.yaml file")
+            continue
+
         # Get versions
         prev_version = yaml.safe_load(
             subprocess.run(['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'],
