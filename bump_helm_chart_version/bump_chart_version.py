@@ -51,8 +51,10 @@ def main():
         os.path.join(*parts[:-1]) if parts[-1] == 'templates' else os.path.join(*parts)
         for file in changed_files
         for parts in [os.path.split(os.path.dirname(file))]
-        if file.endswith('/Chart.yaml') or '/templates' in file
+        if file.endswith('.yaml') or '/templates' in file
     ))
+
+    print("Changed chart directories: ", chart_dirs)
 
     for chart_dir in chart_dirs:
         # Get versions
@@ -60,7 +62,6 @@ def main():
             subprocess.run(['git', 'show', f'{main_branch_name}:{chart_dir}/Chart.yaml'],
                         check=True, capture_output=True, text=True).stdout
         )['version']
-
 
         with open(f'{chart_dir}/Chart.yaml', 'r', encoding='utf-8') as chart_yaml_file:
             current_version = next(
