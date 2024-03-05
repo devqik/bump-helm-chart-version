@@ -30,7 +30,7 @@ def main():
         return new_version
 
     # Retrieve main branch name
-    main_branch_name = next(
+    main_branch_name = "origin/" + next(
         line.split(':')[1].strip()
         for line in subprocess.check_output(['git', 'remote', 'show', 'origin'],
             text=True).split('\n')
