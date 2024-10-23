@@ -1,5 +1,5 @@
 """
-This script performs version-related tasks for chart directories based on Git changes.
+This package performs a helm chart version bump if the /templates folder has changes.
 """
 
 from setuptools import setup
